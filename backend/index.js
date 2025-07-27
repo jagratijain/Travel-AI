@@ -1,15 +1,16 @@
-import cookieParser from "cookie-parser";
-import cors from 'cors';
-import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import path from "path";
-import { Resend } from 'resend';
 import authRoute from "./routes/auth.route.js";
-import bookingRoute from "./routes/booking.route.js";
+import userRoute from "./routes/user.route.js";
 import packageRoute from "./routes/package.route.js";
 import ratingRoute from "./routes/rating.route.js";
-import userRoute from "./routes/user.route.js";
+import bookingRoute from "./routes/booking.route.js";
+import insightsRoute from "./routes/ai-insights.route.js";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
+import path from "path";
+import cors from 'cors';
+import { Resend } from 'resend';
 
 
 const app = express();
@@ -18,7 +19,7 @@ dotenv.config();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 app.use(cors({
-  origin: ['http://localhost:5173'],
+  origin: ['https://travelbugg.vercel.app', 'http://localhost:5173'],
   credentials: true,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: 'Origin,X-Requested-With,Content-Type,Accept,Authorization',
@@ -42,24 +43,20 @@ app.use("/api/user", userRoute);
 app.use("/api/package", packageRoute);
 app.use("/api/rating", ratingRoute);
 app.use("/api/booking", bookingRoute);
+app.use('/api/ai-insights', insightsRoute);
 
 app.get("/", (req, res) => {
-  res.send("Travel AI API is running");
-});
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  res.send("TravelBug API is running");
 });
 
-// New route for sending email
+// Route for sending email
 
 app.post('/send-email', async (req, res) => {
   const { to, subject, html } = req.body;
 
   try {
     const { data, error } = await resend.emails.send({
-      from: "developers@onclique.tech",
+      from: "developers@buildfolio.in",
       to: [to],
       subject,
       html,
@@ -76,5 +73,9 @@ app.post('/send-email', async (req, res) => {
   }
 });
 
-export default app;
+const PORT = process.env.PORT ;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
 
+export default app;
