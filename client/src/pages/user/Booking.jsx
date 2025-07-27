@@ -308,21 +308,20 @@ const Booking = () => {
 
             <div className="space-y-4">
               <p className={`font-semibold ${instance && "text-red-700 text-sm"}`}>
-                Payment: {!instance ? "Loading..." : "Don't use your original card details! (This is not the production build)"}
+                Payment: {!instance ? "Loading..." : "Don't use your original card details! (This is just a personal project.)"}
               </p>
               {clientToken && (
                 <>
                   <DropIn
                     options={{
                       authorization: clientToken,
-                      paypal: { flow: "vault" },
                     }}
                     onInstance={(instance) => setInstance(instance)}
                   />
                   <button
                     className="w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                     onClick={handleBookPackage}
-                    disabled={loading || !instance || !currentUser?.address}
+                    disabled={loading || !instance}
                   >
                     {loading ? "Processing..." : "Book Now"}
                   </button>

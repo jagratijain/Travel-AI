@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import toast, { Toaster } from 'react-hot-toast';
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  loginFailure,
   loginStart,
   loginSuccess,
+  loginFailure,
   setGENOTP
 } from "../redux/user/userSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
   const dispatch = useDispatch();
